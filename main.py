@@ -51,7 +51,7 @@ def CheckError( r ):
 	r = r.json()
 	if 'errors' in r:
 		LogAndPrint("We got an error message: " + r['errors'][0]['message'] + " Code: " + str(r['errors'][0]['code']) )
-		#sys.exit(r['errors'][0]['code'])
+		sys.exit(r['errors'][0]['code'])
 
 def CheckRateLimit():
         c = threading.Timer(rate_limit_update_time, CheckRateLimit)
@@ -178,12 +178,14 @@ def ScanForContests():
 					c=c+1
 					user_item = item['user']
 					screen_name = user_item['screen_name']
+					name = user_item['name']
 					text = item['text']
 					text = text.replace("\n","")
 					id = str(item['id'])
 					original_id=id
 					is_retweet = 0
 					original_screen_name = ""
+					original_name = ""
 					original_user_item = ""
 					original_item = ""
 
@@ -194,12 +196,13 @@ def ScanForContests():
 						original_id = str(original_item['id'])
 						original_user_item = original_item['user']
 						original_screen_name = original_user_item['screen_name']
+						original_name = original_user_item['name']
 
 					if not original_id in ignore_list:
 
-						if not original_screen_name in ignore_list:
+						if not original_screen_name in ignore_list and not original_name in ignore_list:
 				
-							if not screen_name in ignore_list:
+							if not screen_name in ignore_list and not name in ignore_list:
 	
 								if item['retweet_count'] > 0:
 

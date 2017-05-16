@@ -2,6 +2,8 @@
 
 Updated with fixes for 2.7.9
 
+Original
+------------------------------
 
 Will poll for Retweet Contests and retweet them. Inspired by http://www.hscott.net/twitter-contest-winning-as-a-service/
 

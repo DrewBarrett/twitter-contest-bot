@@ -65,7 +65,9 @@ def CheckRateLimit():
 		print("Ratelimit too low -> Cooldown (" + str(ratelimit[2]) + "%)")
 		time.sleep(30)
 	
-	r = api.request('application/rate_limit_status').json()
+	r = api.request('application/rate_limit_status')
+	CheckError(r)
+	r = r.json()
 
 	for res_family in r['resources']:
 		for res in r['resources'][res_family]:
@@ -172,9 +174,7 @@ def ScanForContests():
 				r = api.request('search/tweets', {'q':search_query, 'result_type':"mixed", 'count':100})
 				CheckError(r)
 				c=0
-					
 				for item in r:
-					
 					c=c+1
 					user_item = item['user']
 					screen_name = user_item['screen_name']
@@ -183,6 +183,9 @@ def ScanForContests():
 					id = str(item['id'])
 					original_id=id
 					is_retweet = 0
+					original_screen_name = ""
+					original_user_item = ""
+					original_item = ""
 
 					if 'retweeted_status' in item:
 
@@ -232,7 +235,8 @@ def ScanForContests():
 
 			except Exception as e:
 				print("Could not connect to TwitterAPI - are your credentials correct?")
-				print("Exception: " + e)
+				print(e)
+				sys.exit()
 
 	else:
 

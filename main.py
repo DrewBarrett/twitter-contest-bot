@@ -3,6 +3,7 @@ import threading
 import time
 import json
 import os.path
+import os
 import sys
 
 # Load our configuration from the JSON file.
@@ -51,7 +52,10 @@ def CheckError( r ):
 	r = r.json()
 	if 'errors' in r:
 		LogAndPrint("We got an error message: " + r['errors'][0]['message'] + " Code: " + str(r['errors'][0]['code']) )
+                threading.current_thread().interrupt_main()
 		sys.exit(r['errors'][0]['code'])
+                sys.exit()
+                os._exit(1)
 
 def CheckRateLimit():
         c = threading.Timer(rate_limit_update_time, CheckRateLimit)

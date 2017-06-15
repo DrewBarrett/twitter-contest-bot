@@ -6,8 +6,10 @@ import os.path
 import os
 import sys
 
+path = os.path.dirname(os.path.realpath(__file__))
+
 # Load our configuration from the JSON file.
-with open('config.json') as data_file:    
+with open(path+'/config.json') as data_file:    
 	data = json.load(data_file)
 
 # These vars are loaded in from config.
@@ -32,9 +34,9 @@ ignore_list = list()
 ratelimit=[999,999,100]
 ratelimit_search=[999,999,100]
 
-if os.path.isfile('ignorelist'):
+if os.path.isfile(path+'/ignorelist'):
 	print("Loading ignore list")
-	with open('ignorelist') as f:
+	with open(path+'/ignorelist') as f:
 		ignore_list = f.read().splitlines()
 	f.close()
 
@@ -44,7 +46,7 @@ def LogAndPrint( text ):
 	tmp = str(text)
 	tmp = text.replace("\n","")
 	print(tmp)
-	f_log = open('log', 'a')
+	f_log = open(path+'/log', 'a')
 	f_log.write(tmp + "\n")
 	f_log.close()
 
